@@ -21,9 +21,9 @@ def choosesymbols(length):
 
 def modeselect(choice):
     # Code that selects the character set for the password
-    letts = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    letts = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
     nums = ["0","1","2","3","4","5","6","7","8","9"]
-    syms = ["~","!","@","#","$","%","^","&","*","(",")","_","+","-","=","[","]","{","}",":",";","'",'"',"\\","|",",",".","/","<",">","?"]
+    syms = ["`","~","!","@","#","$","%","^","&","*","(",")","_","+","-","=","[","]","{","}",":",";","'",'"',"\\","|",",",".","/","<",">","?"]
     if choice in (1,0): sym_set = letts 
     if choice==2: sym_set = nums
     if choice==3: sym_set = syms 
@@ -32,7 +32,6 @@ def modeselect(choice):
     if choice==6: sym_set = nums+syms
     if choice==7: sym_set = letts+nums+syms
     return(sym_set)
-
 
 def welcome_to_tapsgen():
     print("----------------------")
