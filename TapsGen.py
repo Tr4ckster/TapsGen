@@ -1,54 +1,95 @@
-from random import randint
+from random import randint as rint
 
-def choosesymbols(lenght):
-    # CODE THAT ASKS IF USER WANTS TO USE NUMBERS, LETTERS OR SYMBOLS
-    print("Do you want to use Numbers, Letters or Symbols? Or all together?")
-    print("----------------------")
-    print("1 - Only Letters")
-    print("2 - Only Numbers")
-    print("3 - Only Symbols")
+def welcome():
+    print("Welcome to TapsGen\n\nPlease type in the amount of symbols you want your password to have.")
+    symbol_amount = int(input("Amount (Digits only): "))
+    return symbol_amount
+
+def randint():
+    if rint(0,1) == 1:
+        return True
+
+def passsymbol(name):
+    low_letters = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+    cap_letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    symbols = ["`","~","!","@","#","$","%","^","&","*","(",")","_","-","+","=","{","}","[","]",":",";","<",">",",",".","?","/"]
+    nums = ["0","1","2","3","4","5","6","7","8","9"]
+    if name == "low_letters":
+        return low_letters[rint(0,len(low_letters)-1)]
+    if name == "cap_letters":
+        return cap_letters[rint(0,len(cap_letters)-1)]
+    if name == "symbols":
+        return symbols[rint(0,len(symbols)-1)]
+    if name == "nums":
+        return nums[rint(0,len(nums)-1)]
+
+def pwkind():
+    print("--------")
+    print("What symbols do you want your Password to contain?")
+    print("0 - Letters only")
+    print("1 - Special Symbols only")
+    print("2 - Numbers only")
+    print("3 - Letters and Special Symbols")
     print("4 - Letters and Numbers")
-    print("5 - Letters and Symbols")
-    print("6 - Numbers and Symbols")
-    print("7 - All of them together")
-    print("----------------------")
-    choose = int(input("Choose from one of the Numbers "))
-    if choose > 7:
-        choose = int(input("The Number you typed in is too big. Please use 1-7 "))
-        choosesymbols(lenght)
+    print("5 - Numbers and Special Symbols")
+    print("6 - Letters, Special Symbols and Numbers")
+    print("--------")
+    kind = int(input("Type the correspondending Number for the Symbols to be added in the Password: \n"))
+    return kind
+    
+
+def pwgen(symamount=8, pwkind=6):
+    pw = []
+    if pwkind > 6:
+        print("The Number you provided is not a Number from the Selection Menu!")
     else:
-        generate_password(lenght,choose)
+        for symbol in range(symamount):
+            if pwkind == 0:
+                if randint():
+                    pwsymbol = passsymbol("low_letters")
+                else:
+                    pwsymbol = passsymbol("cap_letters")
+            if pwkind == 1:
+                pwsymbol = passsymbol("symbols")
+            if pwkind == 2:
+                pwsymbol = passsymbol("nums")
+            if pwkind == 3:
+                if randint():
+                    pwsymbol = passsymbol("symbols")
+                else:
+                    if randint():
+                        pwsymbol = passsymbol("low_letters")
+                    else:
+                        pwsymbol = passsymbol("cap_letters")
+            if pwkind == 4:
+                if randint():
+                    pwsymbol = passsymbol("nums")
+                else:
+                    if randint():
+                        pwsymbol = passsymbol("low_letters")
+                    else:
+                        pwsymbol = passsymbol("cap_letters")
+            if pwkind == 5:
+                if randint():
+                    pwsymbol = passsymbol("nums")
+                else:
+                    pwsymbol = passsymbol("symbols")
+            if pwkind == 6:
+                random = rint(0,2)
+                if random == 0:
+                    if randint():
+                        pwsymbol = passsymbol("low_letters")
+                    else:
+                        pwsymbol = passsymbol("cap_letters")
+                elif random == 1:
+                    pwsymbol = passsymbol("nums")
+                else:
+                    pwsymbol = passsymbol("symbols")
+            pw.append(pwsymbol)
+    print("---------")
+    print("Password has been put into Text File")
+    return ''.join(pw)
 
-def welcome_to_tapsgen():
-    print("----------------------")
-    print("Welcome to TapsGen. A easy to use Password Generator.")
-    print("How long do you want your password to be? It should be atleast 8 Symbols.")
-    print("But the more the better.")
-    print("----------------------")
-    lenght = int(input("Please type in the amount of symbols you want to have. (Only use Digits 0-9) "))
-    if lenght < 8:
-        confirmshortpw = input("Are you sure you want your Password only have {} Symbols? This might be easy to crack. Y/N ".format(lenght)).lower()
-        if confirmshortpw == "y":
-            choosesymbols(lenght)
-        else:
-            welcome_to_tapsgen()
-    else:
-        print("You want your Password to have {} Symbols. ".format(lenght))
-        confirm = input("Is that correct? Y/N ").lower()
-        if confirm == "y":
-            choosesymbols(lenght)
-        else:
-            welcome_to_tapsgen()
-
-def generate_password(lenght,choose):
-    letters_cap = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-    nums = range(0,9)
-    symbols = ["#","@","/","§","%","!","=","*","+","~","-","<",">"]
-    password = []
-    for symbol in range(0,lenght):
-        randomizer_letters_cap = randint(0,len(letters_cap)-1)
-        password.append(letters_cap[randomizer_letters_cap])
-    print("Your password is: \n")
-    print("".join(password))
-
-welcome_to_tapsgen()
+if __name__ == "__main__":
+    with open("password.txt", "w") as f:
+        f.write(pwgen(welcome(), pwkind()))
