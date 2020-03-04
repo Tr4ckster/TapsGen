@@ -1,25 +1,27 @@
 import secrets
 
-def choosesymbols(length):
+def sel_chars(length):
     # CODE THAT ASKS IF USER WANTS TO USE NUMBERS, LETTERS OR SYMBOLS
-    print("Do you want to use Numbers, Letters or Special symbols? Maybe all of the above?")
+    print("Alright, your password will have",length,"symbols\n")
+    print("Do you want to use Numbers, Letters or Special characters? Maybe all of the above?")
     print("----------------------")
     print("1 - Only Letters")
     print("2 - Only Numbers")
-    print("3 - Only Special symbols")
+    print("3 - Only Special characters")
     print("4 - Letters and Numbers")
-    print("5 - Letters and Special symbols")
-    print("6 - Numbers and Special symbols")
+    print("5 - Letters and Special characters")
+    print("6 - Numbers and Special characters")
     print("7 - All of them")
     print("----------------------")
-    choice = int(input("Choose from one of the numbers: "))
+    try: choice = int(input("Choose from one of the numbers: "))
+    except: choice = 7
     if choice > 7:
         print("That number isn't on the list. Please try again")
-        choosesymbols(length)
+        sel_chars(length)
     else:
-        generate_password(length,modeselect(choice))
+        generate_password(length,mode_sel(choice))
 
-def modeselect(choice):
+def mode_sel(choice):
     # Code that selects the character set for the password
     letts = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
     nums = ["0","1","2","3","4","5","6","7","8","9"]
@@ -39,20 +41,15 @@ def welcome_to_tapsgen():
     print("How long do you want your password to be? It should be at least 8 symbols.")
     print("But the more, the better.")
     print("----------------------")
-    length = int(input("Please type in the amount of symbols you want to have. (Only use Digits, 0-9)\n"))
+    try: length = int(input("Please type in the amount of symbols you want to have. (Only use Digits, 0-9)\n"))
+    except: length = 12
     if length < 8:
         confirmshortpw = input("Are you sure you want your password only have {} symbols? This might be easy to crack. Y/N\n".format(length)).lower()
         if confirmshortpw == "y":
-            choosesymbols(length)
+            sel_chars(length)
         else:
             welcome_to_tapsgen()
-    else:
-        print("You want your password to have {} symbols. ".format(length))
-        confirm = input("Is that correct? Y/N\n").lower()
-        if confirm == "y":
-            choosesymbols(length)
-        else:
-            welcome_to_tapsgen()
+    sel_chars(length)
 
 def generate_password(length,sym_set):
     password = []
